@@ -22,6 +22,13 @@ public class Transform
         return translationMatrix.mul(rotationMatrix.mul(scaleMatrix));
     }
 
+    public Matrix4f getProjectedTransformation()
+    {
+        
+
+        return null;
+    }
+
     public Vector3f getTranslation()
     {
         return translation;
