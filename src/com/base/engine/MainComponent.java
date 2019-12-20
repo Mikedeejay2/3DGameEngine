@@ -1,6 +1,7 @@
 package com.base.engine;
 
-public class MainComponent {
+public class MainComponent
+{
     public static final int WIDTH = 1920;
     public static final int HEIGHT = 1080;
     public static final String TITLE = "3D Engine";
@@ -9,28 +10,32 @@ public class MainComponent {
     private boolean isRunning;
     private Game game;
 
-    public MainComponent() {
+    public MainComponent()
+    {
         System.out.println(RenderUtil.getOpenGLVersion());
         RenderUtil.initGraphics();
         isRunning = false;
         game = new Game();
     }
 
-    public void start() {
+    public void start()
+    {
         if (isRunning)
             return;
 
         run();
     }
 
-    public void stop() {
+    public void stop()
+    {
         if(!isRunning)
             return;
 
         isRunning = false;
     }
 
-    private void run() {
+    private void run()
+    {
         isRunning = true;
 
         int frames = 0;
@@ -51,7 +56,8 @@ public class MainComponent {
             unprocessedTime += passedTime / (double)Time.SECOND;
             frameCounter += passedTime;
 
-            while(unprocessedTime > frameTime) {
+            while(unprocessedTime > frameTime)
+            {
                 render = true;
 
                 unprocessedTime -= frameTime;
@@ -66,21 +72,28 @@ public class MainComponent {
 
                 game.update();
 
-                if(frameCounter >= Time.SECOND) {
+                if(frameCounter >= Time.SECOND)
+                {
                     System.out.println(frames);
                     frames = 0;
                     frameCounter = 0;
                 }
             }
 
-            if(render) {
+            if(render)
+            {
                 RenderUtil.clearScreen();
                 render();
                 frames++;
-            } else {
-                try {
+            }
+            else
+            {
+                try
+                {
                     Thread.sleep(1);
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e)
+                {
                     e.printStackTrace();
                 }
             }
@@ -89,16 +102,19 @@ public class MainComponent {
         cleanUp();
     }
 
-    private void render() {
+    private void render()
+    {
         game.render();
         Window.render();
     }
 
-    private void cleanUp() {
+    private void cleanUp()
+    {
         Window.dispose();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         Window.createWindow(WIDTH, HEIGHT, TITLE);
 
         MainComponent game = new MainComponent();

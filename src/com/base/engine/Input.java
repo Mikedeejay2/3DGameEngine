@@ -5,7 +5,8 @@ import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 
-public class Input {
+public class Input
+{
     public static final int NUM_KEYCODES = 256;
     public static final int NUM_MOUSEBUTTONS = 5;
 

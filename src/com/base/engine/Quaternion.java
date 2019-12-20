@@ -1,23 +1,27 @@
 package com.base.engine;
 
-public class Quaternion {
+public class Quaternion
+{
     private float x;
     private float y;
     private float z;
     private float w;
 
-    public Quaternion(float x, float y, float z, float w) {
+    public Quaternion(float x, float y, float z, float w)
+    {
         this.x = x;
         this.y = y;
         this.z = z;
         this.w = w;
     }
 
-    public float length() {
+    public float length()
+    {
         return (float)Math.sqrt(x * x + y * y + z * z + w * w);
     }
 
-    public Quaternion normalize() {
+    public Quaternion normalize()
+    {
         float length = length();
 
         x /= length;
@@ -28,11 +32,13 @@ public class Quaternion {
         return this;
     }
 
-    public Quaternion conjugate() {
+    public Quaternion conjugate()
+    {
         return new Quaternion(-x, -y, -z, w);
     }
 
-    public Quaternion mul(Quaternion r) {
+    public Quaternion mul(Quaternion r)
+    {
         float w_ = w * r.getW() - x * r.getX() - y * r.getY() - z * r.getZ();
         float x_ = x * r.getW() + w * r.getX() + y * r.getZ() - z * r.getY();
         float y_ = y * r.getW() + w * r.getY() + z * r.getX() - x * r.getZ();
@@ -42,7 +48,8 @@ public class Quaternion {
         return new Quaternion(x_, y_, z_, w_);
     }
 
-    public Quaternion mul(Vector3f r) {
+    public Quaternion mul(Vector3f r)
+    {
         float w_ = -x * r.getX() - y * r.getY() - z * r.getZ();
         float x_ =  w * r.getX() + y * r.getZ() - z * r.getY();
         float y_ =  w * r.getY() + z * r.getX() - x * r.getZ();
@@ -51,35 +58,43 @@ public class Quaternion {
         return new Quaternion(x_, y_, z_, w_);
     }
 
-    public float getX() {
+    public float getX()
+    {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(float x)
+    {
         this.x = x;
     }
 
-    public float getY() {
+    public float getY()
+    {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(float y)
+    {
         this.y = y;
     }
 
-    public float getZ() {
+    public float getZ()
+    {
         return z;
     }
 
-    public void setZ(float z) {
+    public void setZ(float z)
+    {
         this.z = z;
     }
 
-    public float getW() {
+    public float getW()
+    {
         return w;
     }
 
-    public void setW(float w) {
+    public void setW(float w)
+    {
         this.w = w;
     }
 }

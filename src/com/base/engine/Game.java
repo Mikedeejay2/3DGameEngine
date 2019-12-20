@@ -2,12 +2,14 @@ package com.base.engine;
 
 import org.lwjgl.input.Keyboard;
 
-public class Game {
+public class Game
+{
     private Mesh mesh;
     private Shader shader;
     private Transform transform;
 
-    public Game() {
+    public Game()
+    {
         mesh = new Mesh();
         shader = new Shader();
 
@@ -31,7 +33,8 @@ public class Game {
         shader.addUniform("transform");
     }
 
-    public void input() {
+    public void input()
+    {
         if(Input.getKeyDown(Keyboard.KEY_UP))
             System.out.println("We've just pressed down!");
 
@@ -47,7 +50,8 @@ public class Game {
 
     float temp = 0.0f;
 
-    public void update() {
+    public void update()
+    {
         temp += Time.getDelta();
 
         float sinTemp = (float)Math.sin(temp);
@@ -58,7 +62,8 @@ public class Game {
         //transform.setScale(sinTemp, sinTemp, sinTemp);
     }
 
-    public void render() {
+    public void render()
+    {
         shader.bind();
         shader.setUniform("transform", transform.getTransformation());
         mesh.draw();

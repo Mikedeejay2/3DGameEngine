@@ -4,7 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-public class ResourceLoader {
+public class ResourceLoader
+{
     public static String loadShader(String fileName) {
         StringBuilder shaderSource = new StringBuilder();
         BufferedReader shaderReader = null;
@@ -12,7 +13,8 @@ public class ResourceLoader {
         try {
             shaderReader = new BufferedReader(new FileReader("./res/shaders/" + fileName));
             String line;
-            while((line = shaderReader.readLine()) != null) {
+            while((line = shaderReader.readLine()) != null)
+            {
                 shaderSource.append(line).append("\n");
             }
 
@@ -25,7 +27,8 @@ public class ResourceLoader {
         return shaderSource.toString();
     }
 
-    public static Mesh loadMesh(String fileName) {
+    public static Mesh loadMesh(String fileName)
+    {
         String[] splitArray = fileName.split("//.");
         String ext = splitArray[splitArray.length - 1];
 
@@ -40,7 +43,8 @@ public class ResourceLoader {
 
         BufferedReader meshReader = null;
 
-        try {
+        try
+        {
             meshReader = new BufferedReader(new FileReader("./res/models/" + fileName));
             String line;
             while((line = meshReader.readLine()) != null) {
@@ -55,7 +59,9 @@ public class ResourceLoader {
             }
 
             meshReader.close();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             System.exit(1);
         }
