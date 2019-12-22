@@ -74,7 +74,7 @@ public class Game
 
         float sinTemp = (float)Math.sin(temp);
 
-        transform.setTranslation(sinTemp, 0, 5);
+        transform.setTranslation(0, 0, 5);
         transform.setRotation(0, sinTemp * 180, 0);
         //transform.setScale(0.7f * sinTemp, 0.7f * sinTemp, 0.7f * sinTemp);
     }
