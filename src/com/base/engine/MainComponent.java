@@ -106,6 +106,14 @@ public class MainComponent
     {
         game.render();
         Window.render();
+        try
+        {
+            Thread.sleep(6);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private void cleanUp()
