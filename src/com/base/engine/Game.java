@@ -13,7 +13,7 @@ public class Game
     public Game()
     {
         mesh = new Mesh(); //ResourceLoader.loadMesh("box.obj");//new Mesh();
-        material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(0, 1, 1));
+        material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(1, 1, 1));
         shader = new PhongShader();
         camera = new Camera();
         transform = new Transform();
