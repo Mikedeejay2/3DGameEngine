@@ -30,17 +30,18 @@ public class Camera
         return projection.mul(cameraRotation.mul(cameraTranslation));
     }
 
-    public void input()
+    public void input(float delta)
     {
         float sensitivity = 0.5f;
-        float movAmt = (float)(10 * Time.getDelta());
-        float rotAmt = (float)(100 * Time.getDelta());
+        float movAmt = (float)(10 * delta);
+        float rotAmt = (float)(100 * delta);
 
         if(Input.getKey(Input.KEY_ESCAPE))
         {
             Input.setCursor(true);
             mouseLocked = false;
         }
+        if(Input.getMouse(0))
         if(Input.getMouse(0))
         {
             Input.setMousePosition(centerPosition);

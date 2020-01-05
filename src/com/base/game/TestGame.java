@@ -28,29 +28,5 @@ public class TestGame extends Game
         planeObject.getTransform().setTranslation(0, -1, 5);
 
         getRootObject().addChild(planeObject);
-
-        //Transform.setProjection(70f, Window.getWidth(), Window.getHeight(), 0.1f, 1000);
-        //Transform.setCamera(camera);
     }
-/*
-    public void input()
-    {
-        camera.input();
-        root.input();
-
-    }
-
-    float temp = 0.0f;
-
-    public void update()
-    {
-        root.getTransform().setTranslation(0, -1, 5);
-        root.update();
-    }
-
-    public void render()
-    {
-        root.render();
-    }*/
-
 }

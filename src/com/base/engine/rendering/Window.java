@@ -1,5 +1,7 @@
 package com.base.engine.rendering;
 
+import com.base.engine.core.Vector2f;
+import com.base.engine.core.Vector3f;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -54,5 +56,10 @@ public class Window
     public static String getTitle()
     {
         return Display.getTitle();
+    }
+
+    public Vector2f getCenter()
+    {
+        return new Vector2f(getWidth() / 2, getHeight() / 2);
     }
 }

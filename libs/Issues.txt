@@ -14,22 +14,23 @@ Other Topics:
 =Non-perspective views (orthogonal views)
 -Texture manipulation (Translation, rotation, scale)
 -More Control over textures (filtering, formatting)
--More friendly constructors
--Window should have more properties (center position, fullscreen, maybe mouse locking)
++More friendly constructors
+=Window should have more properties (center position, fullscreen, maybe mouse locking)
 -Better vector math (normalization, +=, Commonly used Vector constants, Swizzling support)
 -Options class / system, some place to read values that the player chooses
 +Centralized "level" or "scene" class that holds the data that the game is using
 +Game object class
--Make all positioning names "position"
--Make naming more consistent
--Vectors Swizzling
--Make all time based on seconds rather than nanoseconds
++Make all positioning names "position"
++Make naming more consistent
++Vectors Swizzling
++Make all time based on seconds rather than nanoseconds
+-Change the way delta is passed
 -Give Vectors a copy constructor
--Give vectors an interpolation method
++Give vectors an interpolation method
 -Transparency Support
 -Sprite support
--Good way to compare vectors
--Vector2f cross product
++Good way to compare vectors
++Vector2f cross product
 -Some way to display text
 
 -Eventually, make easier way to generate mesh
