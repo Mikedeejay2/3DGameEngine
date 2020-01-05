@@ -24,7 +24,7 @@ Other Topics:
 +Make naming more consistent
 +Vectors Swizzling
 +Make all time based on seconds rather than nanoseconds
--Change the way delta is passed
++Change the way delta is passed
 -Give Vectors a copy constructor
 +Give vectors an interpolation method
 -Transparency Support

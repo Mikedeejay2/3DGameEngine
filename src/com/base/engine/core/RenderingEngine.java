@@ -1,9 +1,6 @@
 package com.base.engine.core;
 
-import com.base.engine.rendering.BasicShader;
-import com.base.engine.rendering.Camera;
-import com.base.engine.rendering.Shader;
-import com.base.engine.rendering.Window;
+import com.base.engine.rendering.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
@@ -11,6 +8,7 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 public class RenderingEngine
 {
     private Camera mainCamera;
+    private Vector3f ambientLight;
 
     public RenderingEngine()
     {
@@ -26,6 +24,13 @@ public class RenderingEngine
         glEnable(GL_TEXTURE_2D);
 
         mainCamera = new Camera((float)Math.toRadians(70.0f), (float)Window.getWidth()/(float)Window.getHeight(), 0.01f, 1000.0f);
+
+        ambientLight = new Vector3f(0.2f, 0.2f, 0.2f);
+    }
+
+    public Vector3f getAmbientLight()
+    {
+        return ambientLight;
     }
 
     public void input(float delta)
@@ -37,10 +42,15 @@ public class RenderingEngine
     {
         clearScreen();
 
-        Shader shader = BasicShader.getInstance();
-        shader.setRenderingEngine(this);
+        Shader forwardAmbient = ForwardAmbient.getInstance();
+        forwardAmbient.setRenderingEngine(this);
 
-        object.render(BasicShader.getInstance());
+        object.render(ForwardAmbient.getInstance());
+
+        //Shader shader = BasicShader.getInstance();
+        //shader.setRenderingEngine(this);
+
+        //object.render(BasicShader.getInstance());
     }
 
     private static void clearScreen()
