@@ -1,5 +1,6 @@
 package com.base.engine.rendering;
 
+import com.base.engine.components.BaseLight;
 import com.base.engine.components.PointLight;
 import com.base.engine.core.Matrix4f;
 import com.base.engine.core.Transform;
@@ -58,7 +59,7 @@ public class ForwardSpot extends Shader
         setUniformf("specularPower", material.getSpecularPower());
 
         setUniform("eyePos", getRenderingEngine().getMainCamera().getPos());
-        setUniform("spotLight", getRenderingEngine().getSpotLight());
+        //setUniform("spotLight", getRenderingEngine().getSpotLight());
     }
 
     public void setUniform(String uniformName, BaseLight baseLight)
