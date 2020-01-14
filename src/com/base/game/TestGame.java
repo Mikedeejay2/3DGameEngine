@@ -1,9 +1,6 @@
 package com.base.game;
 
-import com.base.engine.components.BaseLight;
-import com.base.engine.components.DirectionalLight;
-import com.base.engine.components.MeshRenderer;
-import com.base.engine.components.PointLight;
+import com.base.engine.components.*;
 import com.base.engine.core.*;
 import com.base.engine.rendering.*;
 
@@ -36,11 +33,20 @@ public class TestGame extends Game
         directionalLightObject.addComponent(directionalLight);
 
         GameObject pointLightObject = new GameObject();
-        pointLightObject.addComponent( new PointLight(new Vector3f(0, 1, 0), 0.4f, new Attenuation(0, 0, 1), new Vector3f(5, 0, 5), 100));
+        pointLightObject.addComponent( new PointLight(new Vector3f(0, 1, 0), 0.4f, 0, 0, 1, new Vector3f(5, 0, 5), 100));
+
+        SpotLight spotLight = new SpotLight(new Vector3f(0, 1, 1), 0.4f,
+                0, 0, 0.1f,
+                new Vector3f(5, 0, 5), 100,
+                new Vector3f(1, 0, 0), 0.7f);
+
+        GameObject spotLightObject = new GameObject();
+        spotLightObject.addComponent(spotLight);
 
         getRootObject().addChild(planeObject);
         getRootObject().addChild(directionalLightObject);
         getRootObject().addChild(pointLightObject);
+        getRootObject().addChild(spotLightObject);
 
         getRootObject().addChild(planeObject);
     }
