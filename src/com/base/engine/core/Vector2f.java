@@ -26,6 +26,11 @@ public class Vector2f
         return x * r.getX() + y * r.getY();
     }
 
+    public float max()
+    {
+        return Math.max(x, y);
+    }
+
     public Vector2f normalize()
     {
         float length = length();
