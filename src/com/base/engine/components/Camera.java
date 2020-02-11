@@ -6,28 +6,21 @@ import com.base.engine.rendering.Window;
 
 public class Camera extends GameComponent
 {
-    public static final Vector3f yAxis = new Vector3f(0, 1, 0);
-//
-//    private Vector3f pos;
-//    private Vector3f forward;
-//    private Vector3f up;
+    public static final Vector3f yAxis = new Vector3f(0,1,0);
+
     private Matrix4f projection;
 
     public Camera(float fov, float aspect, float zNear, float zFar)
     {
-//        this.pos = new Vector3f(0, 0, 0);
-//        this.forward = new Vector3f(0, 0, 1).normalized();
-//        this.up = new Vector3f(0, 1, 0).normalized();
         this.projection = new Matrix4f().initPerspective(fov, aspect, zNear, zFar);
     }
 
-    boolean mouseLocked = false;
-    Vector2f centerPosition = new Vector2f(Window.getWidth() / 2, Window.getHeight() / 2);
-
     public Matrix4f getViewProjection()
     {
-        Matrix4f cameraRotation = getTransform().getRot().toRotationMatrix();
-        Matrix4f cameraTranslation = new Matrix4f().initTranslation(-getTransform().getPos().getX(), -getTransform().getPos().getY(), -getTransform().getPos().getZ());
+        Matrix4f cameraRotation = getTransform().getTransformedRot().conjugate().toRotationMatrix();
+        Vector3f cameraPos = getTransform().getTransformedPos().mul(-1);
+
+        Matrix4f cameraTranslation = new Matrix4f().initTranslation(cameraPos.getX(), cameraPos.getY(), cameraPos.getZ());
 
         return projection.mul(cameraRotation.mul(cameraTranslation));
     }
@@ -38,20 +31,22 @@ public class Camera extends GameComponent
         renderingEngine.addCamera(this);
     }
 
+    boolean mouseLocked = false;
+    Vector2f centerPosition = new Vector2f(Window.getWidth()/2, Window.getHeight()/2);
+
     @Override
     public void input(float delta)
     {
-        float sensitivity = -0.5f;
+        float sensitivity = 0.5f;
         float movAmt = (float)(10 * delta);
-        float rotAmt = (float)(100 * delta);
+//		float rotAmt = (float)(100 * Time.getDelta());
 
         if(Input.getKey(Input.KEY_ESCAPE))
         {
             Input.setCursor(true);
             mouseLocked = false;
         }
-        if(Input.getMouse(0))
-        if(Input.getMouse(0))
+        if(Input.getMouseDown(0))
         {
             Input.setMousePosition(centerPosition);
             Input.setCursor(false);
@@ -75,28 +70,26 @@ public class Camera extends GameComponent
             boolean rotX = deltaPos.getY() != 0;
 
             if(rotY)
-                getTransform().setRot(getTransform().getRot().mul(new Quaternion(yAxis, (float)Math.toRadians(deltaPos.getX() * sensitivity))).normalized());
+                getTransform().rotate(yAxis, (float) Math.toRadians(deltaPos.getX() * sensitivity));
             if(rotX)
-                getTransform().setRot(getTransform().getRot().mul(new Quaternion(getTransform().getRot().getRight(), (float)Math.toRadians(-deltaPos.getY() * sensitivity))).normalized());
+                getTransform().rotate(getTransform().getRot().getRight(), (float) Math.toRadians(-deltaPos.getY() * sensitivity));
 
             if(rotY || rotX)
                 Input.setMousePosition(new Vector2f(Window.getWidth()/2, Window.getHeight()/2));
         }
 
-        /*
-        if(Input.getKey(Input.KEY_UP))
-            rotateX(-rotAmt);
-        if(Input.getKey(Input.KEY_DOWN))
-            rotateX(rotAmt);
-        if(Input.getKey(Input.KEY_LEFT))
-            rotateY(-rotAmt);
-        if(Input.getKey(Input.KEY_RIGHT))
-            rotateY(rotAmt);
-        */
+//		if(Input.getKey(Input.KEY_UP))
+//			rotateX(-rotAmt);
+//		if(Input.getKey(Input.KEY_DOWN))
+//			rotateX(rotAmt);
+//		if(Input.getKey(Input.KEY_LEFT))
+//			rotateY(-rotAmt);
+//		if(Input.getKey(Input.KEY_RIGHT))
+//		 	rotateY(rotAmt);
     }
 
     public void move(Vector3f dir, float amt)
     {
-        getTransform().setPos(getTransform().getPos().add(dir.mul(amt)));;
+        getTransform().setPos(getTransform().getPos().add(dir.mul(amt)));
     }
 }
