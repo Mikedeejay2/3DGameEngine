@@ -7,6 +7,7 @@ import com.base.engine.core.Vector3f;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class OBJModel
 {
@@ -89,6 +90,9 @@ public class OBJModel
     public IndexedModel toIndexedModel()
     {
         IndexedModel result = new IndexedModel();
+        HashMap<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
+
+        int currentVertexIndex = 0;
 
         for(int i = 0; i < indices.size(); i++)
         {
@@ -108,10 +112,35 @@ public class OBJModel
             else
                 currentNormal = new Vector3f(0, 0, 0);
 
-            result.getPositions().add(currentPosition);
-            result.getTexCoords().add(currentTexCoord);
-            result.getNormals().add(currentNormal);
-            result.getIndices().add(i);
+            int previousVertexIndex = -1;
+
+            for(int j = 0; j < i; j++)
+            {
+                OBJIndex oldIndex = indices.get(j);
+
+                if(currentIndex.vertexIndex == oldIndex.vertexIndex
+                    && currentIndex.texCoordIndex == oldIndex.texCoordIndex
+                    && currentIndex.normalIndex == oldIndex.normalIndex)
+                {
+                    previousVertexIndex = j;
+                    break;
+                }
+            }
+
+            if(previousVertexIndex == -1)
+            {
+                indexMap.put(i, currentVertexIndex);
+
+                result.getPositions().add(currentPosition);
+                result.getTexCoords().add(currentTexCoord);
+                result.getNormals().add(currentNormal);
+                result.getIndices().add(currentVertexIndex);
+                currentVertexIndex++;
+            }
+            else
+            {
+                result.getIndices().add(indexMap.get(previousVertexIndex));
+            }
         }
 
         return result;

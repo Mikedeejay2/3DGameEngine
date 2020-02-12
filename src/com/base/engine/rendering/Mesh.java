@@ -124,6 +124,7 @@ public class Mesh
 
         OBJModel test = new OBJModel("./res/models/" + fileName);
         IndexedModel model = test.toIndexedModel();
+        model.calcNormals();
 
         ArrayList<Vertex> vertices = new ArrayList<Vertex>();
 
@@ -140,7 +141,7 @@ public class Mesh
         Integer[] indexData = new Integer[model.getIndices().size()];
         model.getIndices().toArray(indexData);
 
-        addVertices(vertexData, Util.toIntArray(indexData), true);
+        addVertices(vertexData, Util.toIntArray(indexData), false);
 //
 //        ArrayList<Vertex> vertices = new ArrayList<Vertex>();
 //        ArrayList<Integer> indices = new ArrayList<Integer>();
