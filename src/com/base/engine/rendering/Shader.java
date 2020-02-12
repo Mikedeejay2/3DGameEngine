@@ -11,7 +11,6 @@ import static org.lwjgl.opengl.GL32.*;
 
 public class Shader
 {
-    private RenderingEngine renderingEngine;
     private int program;
     private HashMap<String, Integer> uniforms;
 
@@ -32,7 +31,7 @@ public class Shader
         glUseProgram(program);
     }
 
-    public void updateUniforms(Transform transform, Material material)
+    public void updateUniforms(Transform transform, Material material, RenderingEngine renderingEngine)
     {
 
     }
@@ -165,15 +164,5 @@ public class Shader
         }
 
         return shaderSource.toString();
-    }
-
-    public void setRenderingEngine(RenderingEngine renderingEngine)
-    {
-        this.renderingEngine = renderingEngine;
-    }
-
-    public RenderingEngine getRenderingEngine()
-    {
-        return renderingEngine;
     }
 }
