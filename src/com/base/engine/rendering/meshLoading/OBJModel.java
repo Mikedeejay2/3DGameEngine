@@ -30,7 +30,7 @@ public class OBJModel
 
         try
         {
-            meshReader = new BufferedReader(new FileReader("./res/models/" + fileName));
+            meshReader = new BufferedReader(new FileReader(fileName));
             String line;
             while((line = meshReader.readLine()) != null) {
                 String[] tokens = line.split(" ");
@@ -86,6 +86,37 @@ public class OBJModel
         }
     }
 
+    public IndexedModel toIndexedModel()
+    {
+        IndexedModel result = new IndexedModel();
+
+        for(int i = 0; i < indices.size(); i++)
+        {
+            OBJIndex currentIndex = indices.get(i);
+
+            Vector3f currentPosition = positions.get(currentIndex.vertexIndex);
+            Vector2f currentTexCoord;
+            Vector3f currentNormal;
+
+            if(hasTexCoords)
+                currentTexCoord = texCoords.get(currentIndex.texCoordIndex);
+            else
+                currentTexCoord = new Vector2f(0, 0);
+
+            if(hasNormals)
+                currentNormal = normals.get(currentIndex.normalIndex);
+            else
+                currentNormal = new Vector3f(0, 0, 0);
+
+            result.getPositions().add(currentPosition);
+            result.getTexCoords().add(currentTexCoord);
+            result.getNormals().add(currentNormal);
+            result.getIndices().add(i);
+        }
+
+        return result;
+    }
+
     private OBJIndex parseOBJIndex(String token)
     {
         String[] values = token.split("/");
@@ -107,8 +138,8 @@ public class OBJModel
         return result;
     }
 
-    public ArrayList<Vector3f> getPositions() { return positions; }
-    public ArrayList<Vector2f> getTexCoords() { return texCoords; }
-    public ArrayList<Vector3f> getNormals()   { return normals;   }
-    public ArrayList<OBJIndex> getIndices()    { return indices;   }
+//    public ArrayList<Vector3f> getPositions() { return positions; }
+//    public ArrayList<Vector2f> getTexCoords() { return texCoords; }
+//    public ArrayList<Vector3f> getNormals()   { return normals;   }
+//    public ArrayList<OBJIndex> getIndices()   { return indices;   }
 }
