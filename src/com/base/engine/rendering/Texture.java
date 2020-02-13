@@ -1,37 +1,58 @@
 package com.base.engine.rendering;
 
 import com.base.engine.core.Util;
+import com.base.engine.rendering.resourceManagement.MeshResource;
+import com.base.engine.rendering.resourceManagement.TextureResource;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class Texture
 {
-    private int id;
+    private static HashMap<String, TextureResource> loadedTextures = new HashMap<String, TextureResource>();
+    private TextureResource resource;
+    private String fileName;
 
     public Texture(String fileName)
     {
-        this(loadTexture(fileName));
+        this.fileName = fileName;
+        TextureResource oldResource = loadedTextures.get(fileName);
+
+        if(oldResource != null)
+        {
+            resource = oldResource;
+            resource.addReference();
+        }
+        else
+        {
+            resource = new TextureResource(loadTexture(fileName));
+            loadedTextures.put(fileName, resource);
+        }
     }
 
-    public Texture(int id)
+    @Override
+    protected void finalize()
     {
-        this.id = id;
+        if(resource.removeReference() && !fileName.isEmpty())
+        {
+            loadedTextures.remove(fileName);
+        }
     }
 
     public void bind()
     {
-        glBindTexture(GL_TEXTURE_2D, id);
+        glBindTexture(GL_TEXTURE_2D, resource.getId());
     }
 
     public int getId()
     {
-        return id;
+        return resource.getId();
     }
 
     private static int loadTexture(String fileName)
