@@ -14,20 +14,7 @@ public class ForwardAmbient extends Shader
 
     public ForwardAmbient()
     {
-        super();
-
-        String vertexShaderText = loadShader("forward-ambient.vs.glsl");
-        String fragmentShaderText = loadShader("forward-ambient.fs.glsl");
-
-        addVertexShader(vertexShaderText);
-        addFragmentShader(fragmentShaderText);
-
-        addAllAttributes(vertexShaderText);
-
-        compileShader();
-
-        addAllUniforms(vertexShaderText);
-        addAllUniforms(fragmentShaderText);
+        super("forward-ambient");
     }
 
     public void updateUniforms(Transform transform, Material material, RenderingEngine renderingEngine)
