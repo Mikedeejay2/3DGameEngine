@@ -35,6 +35,11 @@ public class TestGame extends Game
         material.addFloat("specularIntensity", 1);
         material.addFloat("specularPower", 8);
 
+        Material material2 = new Material();
+        material2.addTexture("diffuse", new Texture("bricks.jpg"));
+        material2.addFloat("specularIntensity", 1);
+        material2.addFloat("specularPower", 8);
+
         Mesh tempMesh = new Mesh("monkey.obj");
 
         MeshRenderer meshRenderer = new MeshRenderer(mesh, material);
@@ -84,6 +89,8 @@ public class TestGame extends Game
 
         testMesh3.getTransform().getPos().set(5, 5, 5);
         testMesh3.getTransform().getRot().set(new Quaternion(new Vector3f(0, 1, 0), (float)Math.toRadians(-70.0f)));
+
+        addObject(new GameObject().addComponent(new MeshRenderer(new Mesh("monkey.obj"), material2)));
 
         testMesh2.addChild(new GameObject().addComponent(new Camera((float)Math.toRadians(70.0f), (float)Window.getWidth()/(float)Window.getHeight(), 0.01f, 1000.0f)));
 
