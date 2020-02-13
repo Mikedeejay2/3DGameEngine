@@ -28,9 +28,6 @@ public class ForwardAmbient extends Shader
 
         addAllUniforms(vertexShaderText);
         addAllUniforms(fragmentShaderText);
-
-//        addUniform("MVP");
-//        addUniform("ambientIntensity");
     }
 
     public void updateUniforms(Transform transform, Material material, RenderingEngine renderingEngine)
