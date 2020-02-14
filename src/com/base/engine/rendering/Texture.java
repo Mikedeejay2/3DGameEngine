@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.*;
 
 public class Texture
 {
@@ -45,9 +46,16 @@ public class Texture
         }
     }
 
+    public void bind(int samplerSlot)
+    {
+        assert(samplerSlot >= 0 && samplerSlot <= 31);
+        glActiveTexture(GL_TEXTURE0 + samplerSlot);
+        glBindTexture(GL_TEXTURE_2D, resource.getId());
+    }
+
     public void bind()
     {
-        glBindTexture(GL_TEXTURE_2D, resource.getId());
+        bind(0);
     }
 
     public int getId()
