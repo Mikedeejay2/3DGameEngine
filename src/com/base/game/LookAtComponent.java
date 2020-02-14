@@ -19,7 +19,7 @@ public class LookAtComponent extends GameComponent
                     new Vector3f(0,1,0));
             //getTransform().getRot().getUp());
 
-            getTransform().setRot(getTransform().getRot().nlerp(newRot, delta * 5.0f, true));
+            getTransform().setRot(getTransform().getRot().nlerp(newRot, delta * 5.0f, false));
             //getTransform().setRot(getTransform().getRot().slerp(newRot, delta * 5.0f, true));
         }
     }

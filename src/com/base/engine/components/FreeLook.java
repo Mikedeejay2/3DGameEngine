@@ -8,15 +8,27 @@ import com.base.engine.rendering.Window;
 public class FreeLook extends GameComponent
 {
     public static final Vector3f yAxis = new Vector3f(0, 1, 0);
-    boolean mouseLocked = false;
     Vector2f centerPosition = new Vector2f(Window.getWidth() / 2, Window.getHeight() / 2);
+
+    boolean mouseLocked = false;
+    private float sensitivity;
+    private int unlockMouseKey;
+
+    public FreeLook(float sensitivity)
+    {
+        this(sensitivity, Input.KEY_ESCAPE);
+    }
+
+    public FreeLook(float sensitivity, int unlockMouseKey)
+    {
+        this.sensitivity = sensitivity;
+        this.unlockMouseKey = unlockMouseKey;
+    }
 
     @Override
     public void input(float delta)
     {
-        float sensitivity = 0.5f;
-
-        if (Input.getKey(Input.KEY_ESCAPE))
+        if (Input.getKey(unlockMouseKey))
         {
             Input.setCursor(true);
             mouseLocked = false;
