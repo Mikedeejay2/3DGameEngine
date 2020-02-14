@@ -4,6 +4,7 @@ import com.base.engine.core.Input;
 import com.base.engine.core.Vector2f;
 import com.base.engine.core.Vector3f;
 import com.base.engine.rendering.Window;
+import org.lwjgl.glfw.GLFW;
 
 public class FreeMove extends GameComponent
 {
@@ -15,7 +16,7 @@ public class FreeMove extends GameComponent
 
     public FreeMove(float speed)
     {
-        this(speed, Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D);
+        this(speed, GLFW.GLFW_KEY_W, GLFW.GLFW_KEY_S, GLFW.GLFW_KEY_A, GLFW.GLFW_KEY_D);
     }
 
     public FreeMove(float speed, int forwardKey, int backKey, int leftKey, int rightKey)
@@ -32,7 +33,7 @@ public class FreeMove extends GameComponent
     {
         float movAmt = speed * delta;
 
-        if(Input.getKey(Input.KEY_ESCAPE))
+        if(Input.getKey(GLFW.GLFW_KEY_ESCAPE))
         {
             Input.setCursor(true);
         }

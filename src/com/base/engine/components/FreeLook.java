@@ -4,6 +4,7 @@ import com.base.engine.core.Input;
 import com.base.engine.core.Vector2f;
 import com.base.engine.core.Vector3f;
 import com.base.engine.rendering.Window;
+import org.lwjgl.glfw.GLFW;
 
 public class FreeLook extends GameComponent
 {
@@ -16,7 +17,7 @@ public class FreeLook extends GameComponent
 
     public FreeLook(float sensitivity)
     {
-        this(sensitivity, Input.KEY_ESCAPE);
+        this(sensitivity, GLFW.GLFW_KEY_ESCAPE);
     }
 
     public FreeLook(float sensitivity, int unlockMouseKey)
@@ -50,7 +51,7 @@ public class FreeLook extends GameComponent
             if (rotY)
                 getTransform().rotate(yAxis, (float) Math.toRadians(deltaPos.getX() * sensitivity));
             if (rotX)
-                getTransform().rotate(getTransform().getRot().getRight(), (float) Math.toRadians(-deltaPos.getY() * sensitivity));
+                getTransform().rotate(getTransform().getRot().getRight(), (float) Math.toRadians(deltaPos.getY() * sensitivity));
 
             if (rotY || rotX)
                 Input.setMousePosition(new Vector2f(Window.getWidth() / 2, Window.getHeight() / 2));

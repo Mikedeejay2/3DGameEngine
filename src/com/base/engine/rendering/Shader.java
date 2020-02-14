@@ -322,7 +322,7 @@ public class Shader
     {
         glLinkProgram(resource.getProgram());
 
-        if(glGetProgram(resource.getProgram(), GL_LINK_STATUS) == 0)
+        if(glGetProgrami(resource.getProgram(), GL_LINK_STATUS) == 0)
         {
             System.err.println(glGetShaderInfoLog(resource.getProgram(), 1024));
             System.exit(1);
@@ -330,7 +330,7 @@ public class Shader
 
         glValidateProgram(resource.getProgram());
 
-        if(glGetProgram(resource.getProgram(), GL_VALIDATE_STATUS) == 0)
+        if(glGetProgrami(resource.getProgram(), GL_VALIDATE_STATUS) == 0)
         {
             System.err.println(glGetShaderInfoLog(resource.getProgram(), 1024));
             System.exit(1);
@@ -349,7 +349,7 @@ public class Shader
         glShaderSource(shader, text);
         glCompileShader(shader);
 
-        if(glGetShader(shader, GL_COMPILE_STATUS) == 0)
+        if(glGetShaderi(shader, GL_COMPILE_STATUS) == 0)
         {
             System.err.println(glGetShaderInfoLog(shader, 1024));
             System.exit(1);
@@ -375,7 +375,7 @@ public class Shader
 
     public void setUniform(String uniformName, Matrix4f value)
     {
-        glUniformMatrix4(resource.getUniforms().get(uniformName), true, Util.createFlippedBuffer(value));
+        glUniformMatrix4fv(resource.getUniforms().get(uniformName), true, Util.createFlippedBuffer(value));
     }
 
     private static String loadShader(String fileName) {

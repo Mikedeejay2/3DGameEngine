@@ -3,6 +3,8 @@ package com.base.engine.core;
 import com.base.engine.rendering.RenderingEngine;
 import com.base.engine.rendering.Window;
 
+import org.lwjgl.glfw.*;
+
 public class CoreEngine
 {
     private boolean isRunning;

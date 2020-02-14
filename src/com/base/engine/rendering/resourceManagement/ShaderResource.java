@@ -16,7 +16,7 @@ public class ShaderResource
 
     public ShaderResource()
     {
-        this.program = glCreateProgram();
+        this.program = glCreateProgram();//glCreateProgram();
         this.refCount = 1;
 
         if(program == 0)
