@@ -129,7 +129,10 @@ public class Shader
             if(!(attributeStartLocation != 0
                     && (Character.isWhitespace(shaderText.charAt(attributeStartLocation - 1)) || shaderText.charAt(attributeStartLocation - 1) == ';')
                     && Character.isWhitespace(shaderText.charAt(attributeStartLocation + ATTRIBUTE_KEYWORD.length()))))
+            {
+                attributeStartLocation = shaderText.indexOf(ATTRIBUTE_KEYWORD, attributeStartLocation + ATTRIBUTE_KEYWORD.length());
                 continue;
+            }
 
             int begin = attributeStartLocation + ATTRIBUTE_KEYWORD.length() + 1;
             int end = shaderText.indexOf(";", begin);
@@ -161,7 +164,10 @@ public class Shader
             if(!(structStartLocation != 0
                     && (Character.isWhitespace(shaderText.charAt(structStartLocation - 1)) || shaderText.charAt(structStartLocation - 1) == ';')
                     && Character.isWhitespace(shaderText.charAt(structStartLocation + STRUCT_KEYWORD.length()))))
+            {
+                structStartLocation = shaderText.indexOf(STRUCT_KEYWORD, structStartLocation + STRUCT_KEYWORD.length());
                 continue;
+            }
 
             int nameBegin = structStartLocation + STRUCT_KEYWORD.length() + 1;
             int braceBegin = shaderText.indexOf("{", nameBegin);
@@ -223,7 +229,10 @@ public class Shader
             if(!(uniformStartLocation != 0
                     && (Character.isWhitespace(shaderText.charAt(uniformStartLocation - 1)) || shaderText.charAt(uniformStartLocation - 1) == ';')
                     && Character.isWhitespace(shaderText.charAt(uniformStartLocation + UNIFORM_KEYWORD.length()))))
+            {
+                uniformStartLocation = shaderText.indexOf(UNIFORM_KEYWORD, uniformStartLocation + UNIFORM_KEYWORD.length());
                 continue;
+            }
 
             int begin = uniformStartLocation + UNIFORM_KEYWORD.length() + 1;
             int end = shaderText.indexOf(";", begin);
