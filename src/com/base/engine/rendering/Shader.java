@@ -5,6 +5,7 @@ import com.base.engine.components.DirectionalLight;
 import com.base.engine.components.PointLight;
 import com.base.engine.components.SpotLight;
 import com.base.engine.core.*;
+import com.base.engine.rendering.resourceManagement.ShaderResource;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -17,41 +18,44 @@ import static org.lwjgl.opengl.GL32.*;
 
 public class Shader
 {
-    private int program;
-    private HashMap<String, Integer> uniforms;
-    private ArrayList<String> uniformNames;
-    private ArrayList<String> uniformTypes;
+    private static HashMap<String, ShaderResource> loadedShaders = new HashMap<String, ShaderResource>();
+
+    private ShaderResource resource;
+    private String fileName;
 
     public Shader(String fileName)
     {
-        program = glCreateProgram();
-        uniforms = new HashMap<String, Integer>();
-        uniformNames = new ArrayList<String>();
-        uniformTypes = new ArrayList<String>();
+        this.fileName = fileName;
 
-        if(program == 0)
+        ShaderResource oldResource = loadedShaders.get(fileName);
+
+        if(oldResource != null)
         {
-            System.err.println("Shader creation failed: Could not find valid memory location in constructor.");
-            System.exit(1);
+            resource = oldResource;
+            resource.addReference();
         }
+        else
+        {
+            resource = new ShaderResource();
 
-        String vertexShaderText = loadShader(fileName + ".vs.glsl");
-        String fragmentShaderText = loadShader(fileName + ".fs.glsl");
+            String vertexShaderText = loadShader(fileName + ".vs.glsl");
+            String fragmentShaderText = loadShader(fileName + ".fs.glsl");
 
-        addVertexShader(vertexShaderText);
-        addFragmentShader(fragmentShaderText);
+            addVertexShader(vertexShaderText);
+            addFragmentShader(fragmentShaderText);
 
-        addAllAttributes(vertexShaderText);
+            addAllAttributes(vertexShaderText);
 
-        compileShader();
+            compileShader();
 
-        addAllUniforms(vertexShaderText);
-        addAllUniforms(fragmentShaderText);
+            addAllUniforms(vertexShaderText);
+            addAllUniforms(fragmentShaderText);
+        }
     }
 
     public void bind()
     {
-        glUseProgram(program);
+        glUseProgram(resource.getProgram());
     }
 
     public void updateUniforms(Transform transform, Material material, RenderingEngine renderingEngine)
@@ -59,10 +63,10 @@ public class Shader
         Matrix4f worldMatrix = transform.getTransformation();
         Matrix4f MVPMatrix = renderingEngine.getMainCamera().getViewProjection().mul(worldMatrix);
 
-        for(int i = 0; i < uniformNames.size(); i++)
+        for(int i = 0; i < resource.getUniformNames().size(); i++)
         {
-            String uniformName = uniformNames.get(i);
-            String uniformType = uniformTypes.get(i);
+            String uniformName = resource.getUniformNames().get(i);
+            String uniformType = resource.getUniformTypes().get(i);
 
             if(uniformType.equals("sampler2D"))
             {
@@ -87,11 +91,11 @@ public class Shader
                 else if(uniformType.equals("float"))
                     setUniformf(uniformName, renderingEngine.getFloat(unprefixedUniformName));
                 else if(uniformType.equals("DirectionalLight"))
-                    setUniformDirectionalLight(uniformName, (DirectionalLight) renderingEngine.getActiveLight());
+                    setUniformDirectionalLight(uniformName, (DirectionalLight)renderingEngine.getActiveLight());
                 else if(uniformType.equals("PointLight"))
-                    setUniformPointLight(uniformName, (PointLight) renderingEngine.getActiveLight());
+                    setUniformPointLight(uniformName, (PointLight)renderingEngine.getActiveLight());
                 else if(uniformType.equals("SpotLight"))
-                    setUniformSpotLight(uniformName, (SpotLight) renderingEngine.getActiveLight());
+                    setUniformSpotLight(uniformName, (SpotLight)renderingEngine.getActiveLight());
                 else
                     renderingEngine.updateUniformStruct(transform, material, this, uniformName, uniformType);
             }
@@ -230,8 +234,8 @@ public class Shader
             String uniformName = uniformLine.substring(whiteSpacePos + 1, uniformLine.length()).trim();
             String uniformType = uniformLine.substring(0, whiteSpacePos).trim();
 
-            uniformNames.add(uniformName);
-            uniformTypes.add(uniformType);
+            resource.getUniformNames().add(uniformName);
+            resource.getUniformTypes().add(uniformType);
             addUniform(uniformName, uniformType, structs);
 
             uniformStartLocation = shaderText.indexOf(UNIFORM_KEYWORD, uniformStartLocation + UNIFORM_KEYWORD.length());
@@ -256,7 +260,7 @@ public class Shader
         if(!addThis)
             return;
 
-        int uniformLocation = glGetUniformLocation(program, uniformName);
+        int uniformLocation = glGetUniformLocation(resource.getProgram(), uniformName);
 
         if(uniformLocation == 0xFFFFFFFF)
         {
@@ -265,7 +269,7 @@ public class Shader
             System.exit(1);
         }
 
-        uniforms.put(uniformName, uniformLocation);
+        resource.getUniforms().put(uniformName, uniformLocation);
     }
 
     private void addVertexShaderFromFile(String text)
@@ -300,24 +304,24 @@ public class Shader
 
     private void setAttribLocation(String attribName, int location)
     {
-        glBindAttribLocation(program, location, attribName);
+        glBindAttribLocation(resource.getProgram(), location, attribName);
     }
 
     private void compileShader()
     {
-        glLinkProgram(program);
+        glLinkProgram(resource.getProgram());
 
-        if(glGetProgram(program, GL_LINK_STATUS) == 0)
+        if(glGetProgram(resource.getProgram(), GL_LINK_STATUS) == 0)
         {
-            System.err.println(glGetShaderInfoLog(program, 1024));
+            System.err.println(glGetShaderInfoLog(resource.getProgram(), 1024));
             System.exit(1);
         }
 
-        glValidateProgram(program);
+        glValidateProgram(resource.getProgram());
 
-        if(glGetProgram(program, GL_VALIDATE_STATUS) == 0)
+        if(glGetProgram(resource.getProgram(), GL_VALIDATE_STATUS) == 0)
         {
-            System.err.println(glGetShaderInfoLog(program, 1024));
+            System.err.println(glGetShaderInfoLog(resource.getProgram(), 1024));
             System.exit(1);
         }
     }
@@ -340,27 +344,27 @@ public class Shader
             System.exit(1);
         }
 
-        glAttachShader(program, shader);
+        glAttachShader(resource.getProgram(), shader);
     }
 
     public void setUniformi(String uniformName, int value)
     {
-        glUniform1i(uniforms.get(uniformName), value);
+        glUniform1i(resource.getUniforms().get(uniformName), value);
     }
 
     public void setUniformf(String uniformName, float value)
     {
-        glUniform1f(uniforms.get(uniformName), value);
+        glUniform1f(resource.getUniforms().get(uniformName), value);
     }
 
     public void setUniform(String uniformName, Vector3f value)
     {
-        glUniform3f(uniforms.get(uniformName), value.getX(), value.getY(), value.getZ());
+        glUniform3f(resource.getUniforms().get(uniformName), value.getX(), value.getY(), value.getZ());
     }
 
     public void setUniform(String uniformName, Matrix4f value)
     {
-        glUniformMatrix4(uniforms.get(uniformName), true, Util.createFlippedBuffer(value));
+        glUniformMatrix4(resource.getUniforms().get(uniformName), true, Util.createFlippedBuffer(value));
     }
 
     private static String loadShader(String fileName) {

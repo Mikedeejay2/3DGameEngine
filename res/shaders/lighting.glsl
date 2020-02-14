@@ -36,7 +36,7 @@ struct SpotLight
     float cutoff;
 };
 
-vec4 calcLight(BaseLight base, vec3 direction, vec3 normal, vec3 worldPos)
+vec4 CalcLight(BaseLight base, vec3 direction, vec3 normal, vec3 worldPos)
 {
     float diffuseFactor = dot(normal, -direction);
 
@@ -64,7 +64,7 @@ vec4 calcLight(BaseLight base, vec3 direction, vec3 normal, vec3 worldPos)
     return diffuseColor + specularColor;
 }
 
-vec4 calcPointLight(PointLight pointLight, vec3 normal, vec3 worldPos)
+vec4 CalcPointLight(PointLight pointLight, vec3 normal, vec3 worldPos)
 {
     vec3 lightDirection = worldPos - pointLight.position;
     float distanceToPoint = length(lightDirection);
@@ -74,7 +74,7 @@ vec4 calcPointLight(PointLight pointLight, vec3 normal, vec3 worldPos)
 
     lightDirection = normalize(lightDirection);
 
-    vec4 color = calcLight(pointLight.base, lightDirection, normal, worldPos);
+    vec4 color = CalcLight(pointLight.base, lightDirection, normal, worldPos);
 
     float attenuation = pointLight.atten.constant +
     pointLight.atten.linear * distanceToPoint +
@@ -84,22 +84,23 @@ vec4 calcPointLight(PointLight pointLight, vec3 normal, vec3 worldPos)
     return color / attenuation;
 }
 
-vec4 calcSpotLight(SpotLight spotLight, vec3 normal, vec3 worldPos)
+vec4 CalcSpotLight(SpotLight spotLight, vec3 normal, vec3 worldPos)
 {
     vec3 lightDirection = normalize(worldPos - spotLight.pointLight.position);
     float spotFactor = dot(lightDirection, spotLight.direction);
 
-    vec4 color = vec4(0, 0, 0, 0);
+    vec4 color = vec4(0,0,0,0);
 
     if(spotFactor > spotLight.cutoff)
     {
-        color = calcPointLight(spotLight.pointLight, normal, worldPos) *
-        (1.0 - (1.0 - spotFactor) / (1.0 - spotLight.cutoff));
+        color = CalcPointLight(spotLight.pointLight, normal, worldPos) *
+        (1.0 - (1.0 - spotFactor)/(1.0 - spotLight.cutoff));
     }
+
     return color;
 }
 
-vec4 calcDirectionalLight(DirectionalLight directionalLight, vec3 normal, vec3 worldPos)
+vec4 CalcDirectionalLight(DirectionalLight directionalLight, vec3 normal, vec3 worldPos)
 {
-    return calcLight(directionalLight.base, -directionalLight.direction, normal, worldPos);
+    return CalcLight(directionalLight.base, -directionalLight.direction, normal, worldPos);
 }

@@ -15,13 +15,13 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 
 public class RenderingEngine extends MappedValues
 {
-    private Camera mainCamera;
-
-    //More Permanent Structure
+    private HashMap<String, Integer> samplerMap;
     private ArrayList<BaseLight> lights;
     private BaseLight activeLight;
 
-    private HashMap<String, Integer> samplerMap;
+    private Shader forwardAmbient;
+
+    private Camera mainCamera;
 
     public RenderingEngine()
     {
@@ -31,6 +31,8 @@ public class RenderingEngine extends MappedValues
         samplerMap.put("diffuse", 0);
 
         addVector3f("ambient", new Vector3f(0.1f, 0.1f, 0.1f));
+
+        forwardAmbient = new Shader("forward-ambient");
 
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -57,8 +59,6 @@ public class RenderingEngine extends MappedValues
 
         lights.clear();//clearLightList();
         object.addToRenderingEngine(this);
-
-        Shader forwardAmbient = ForwardAmbient.getInstance();
 
         object.render(forwardAmbient, this);
 
