@@ -13,7 +13,6 @@ public class Material extends MappedValues
     {
         super();
         textureHashMap = new HashMap<String, Texture>();
-        textureHashMap.put("normalMap", new Texture("default_normal.jpg"));
     }
 
     public void addTexture(String name, Texture texture)
