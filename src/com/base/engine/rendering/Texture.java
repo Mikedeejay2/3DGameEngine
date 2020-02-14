@@ -58,6 +58,11 @@ public class Texture
         bind(0);
     }
 
+    public void bindAsRenderTarget()
+    {
+
+    }
+
     public int getId()
     {
         return resource.getId();

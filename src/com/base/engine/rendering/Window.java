@@ -8,6 +8,10 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+import static org.lwjgl.opengl.GL30.GL_DRAW_FRAMEBUFFER;
+import static org.lwjgl.opengl.GL30.glBindFramebuffer;
+import static org.lwjgl.opengl.GL11.*;
+
 public class Window
 {
     public static void createWindow(int width, int height, String title)
@@ -36,6 +40,12 @@ public class Window
         Display.destroy();
         Keyboard.destroy();
         Mouse.destroy();
+    }
+
+    public static void bindAsRenderTarget()
+    {
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+        glViewport(0, 0, getWidth(), getHeight());
     }
 
     public static boolean isCloseRequested()
