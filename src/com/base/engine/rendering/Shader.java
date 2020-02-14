@@ -50,6 +50,8 @@ public class Shader
 
             addAllUniforms(vertexShaderText);
             addAllUniforms(fragmentShaderText);
+
+            loadedShaders.put(fileName, resource);
         }
     }
 
