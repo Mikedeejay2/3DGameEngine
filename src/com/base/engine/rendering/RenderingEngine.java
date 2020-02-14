@@ -2,15 +2,14 @@ package com.base.engine.rendering;
 
 import com.base.engine.components.BaseLight;
 import com.base.engine.components.Camera;
-import com.base.engine.core.GameObject;
-import com.base.engine.core.Transform;
-import com.base.engine.core.Vector3f;
+import com.base.engine.core.*;
 import com.base.engine.rendering.resourceManagement.MappedValues;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL30.GL_COLOR_ATTACHMENT0;
 import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 
 public class RenderingEngine extends MappedValues
@@ -55,8 +54,6 @@ public class RenderingEngine extends MappedValues
 
     public void render(GameObject object)
     {
-        Window.bindAsRenderTarget();
-
         if (getMainCamera() == null) System.err.println("Error! Main camera not found. This is very very big bug, and game will crash.");
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
