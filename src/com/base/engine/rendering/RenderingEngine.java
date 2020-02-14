@@ -57,8 +57,8 @@ public class RenderingEngine extends MappedValues
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        lights.clear();//clearLightList();
-        object.addToRenderingEngine(this);
+//        lights.clear();//clearLightList();
+//        object.addToRenderingEngine(this);
 
         object.render(forwardAmbient, this);
 
@@ -70,8 +70,6 @@ public class RenderingEngine extends MappedValues
         for(BaseLight light : lights)
         {
             activeLight = light;
-
-            //TODO: Active Light replacement
             object.render(light.getShader(), this);
         }
         glDepthFunc(GL_LESS);
