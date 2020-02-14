@@ -71,8 +71,6 @@ public class TestGame extends Game
 
         addObject(planeObject);
 
-        //getRootObject().addChild(new GameObject().addComponent(new Camera((float)Math.toRadians(70.0f), (float)Window.getWidth()/(float)Window.getHeight(), 0.01f, 1000.0f)));
-
         GameObject testMesh1 = new GameObject().addComponent(new MeshRenderer(mesh2, material));
         GameObject testMesh2 = new GameObject().addComponent(new MeshRenderer(mesh2, material));
         GameObject testMesh3 = new GameObject().addComponent(new LookAtComponent()).addComponent(new MeshRenderer(tempMesh, material));
@@ -93,7 +91,7 @@ public class TestGame extends Game
 
         addObject(new GameObject().addComponent(new MeshRenderer(new Mesh("monkey.obj"), material2)));
 
-        testMesh2.addChild(new GameObject().addComponent(new Camera((float)Math.toRadians(70.0f), (float)Window.getWidth()/(float)Window.getHeight(), 0.01f, 1000.0f)));
+        testMesh2.addChild(new GameObject().addComponent(new FreeLook()).addComponent(new FreeMove()).addComponent(new Camera((float)Math.toRadians(70.0f), (float)Window.getWidth()/(float)Window.getHeight(), 0.01f, 1000.0f)));
 
         directionalLight.getTransform().setRot(new Quaternion(new Vector3f(1, 0, 0), (float)Math.toRadians(-45)));
 
