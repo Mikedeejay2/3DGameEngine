@@ -50,7 +50,7 @@ public class Shader
 
     }
 
-    public void addAllAttributes(String shaderText)
+    private void addAllAttributes(String shaderText)
     {
         final String ATTRIBUTE_KEYWORD = "attribute";
         int attributeStartLocation = shaderText.indexOf(ATTRIBUTE_KEYWORD);
@@ -147,7 +147,7 @@ public class Shader
         return  result;
     }
 
-    public void addAllUniforms(String shaderText)
+    private void addAllUniforms(String shaderText)
     {
         HashMap<String, ArrayList<GLSLStruct>> structs = findUniformStructs(shaderText);
 
@@ -194,7 +194,7 @@ public class Shader
                 addUniform(uniformName);
     }
 
-    public void addUniform(String uniform)
+    private void addUniform(String uniform)
     {
         int uniformLocation = glGetUniformLocation(program, uniform);
 
@@ -208,42 +208,42 @@ public class Shader
         uniforms.put(uniform, uniformLocation);
     }
 
-    public void addVertexShaderFromFile(String text)
+    private void addVertexShaderFromFile(String text)
     {
         addProgram(loadShader(text), GL_VERTEX_SHADER);
     }
 
-    public void addGeometryShaderFromFile(String text)
+    private void addGeometryShaderFromFile(String text)
     {
         addProgram(loadShader(text), GL_GEOMETRY_SHADER);
     }
 
-    public void addFragmentShaderFromFile(String text)
+    private void addFragmentShaderFromFile(String text)
     {
         addProgram(loadShader(text), GL_FRAGMENT_SHADER);
     }
 
-    public void addVertexShader(String text)
+    private void addVertexShader(String text)
     {
         addProgram(text, GL_VERTEX_SHADER);
     }
 
-    public void addGeometryShader(String text)
+    private void addGeometryShader(String text)
     {
         addProgram(text, GL_GEOMETRY_SHADER);
     }
 
-    public void addFragmentShader(String text)
+    private void addFragmentShader(String text)
     {
         addProgram(text, GL_FRAGMENT_SHADER);
     }
 
-    public void setAttribLocation(String attribName, int location)
+    private void setAttribLocation(String attribName, int location)
     {
         glBindAttribLocation(program, location, attribName);
     }
 
-    public void compileShader()
+    private void compileShader()
     {
         glLinkProgram(program);
 
@@ -303,7 +303,7 @@ public class Shader
         glUniformMatrix4(uniforms.get(uniformName), true, Util.createFlippedBuffer(value));
     }
 
-    public static String loadShader(String fileName) {
+    private static String loadShader(String fileName) {
         StringBuilder shaderSource = new StringBuilder();
         BufferedReader shaderReader = null;
         final String INCLUDE_DIRECTIVE = "#include";
